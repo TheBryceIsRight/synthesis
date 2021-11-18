@@ -56,7 +56,7 @@
     <v-navigation-drawer
       v-model="drawer"
       absolute
-      bottom
+      left
       temporary
       width=60%
     >
