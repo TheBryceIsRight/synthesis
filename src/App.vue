@@ -90,6 +90,7 @@
             </v-list-item-content>
           </template>
 
+           <router-link to="/" style="text-decoration:none">
           <v-list-item
             v-for="([title, icon], i) in training"
             :key="i"
@@ -100,6 +101,7 @@
             </v-list-item-icon>
             <v-list-item-title v-text="title"></v-list-item-title>
           </v-list-item>
+          </router-link>
         </v-list-group>
 
                 <v-list-group
@@ -604,14 +606,14 @@ export default {
         ['Test Case Execution', 'mdi-play'],
       ],
       training: [
-        ['Getting the most out of self paced onboarding & training', 'mdi-message-text'],
-        ['Intro & Prerequisites for training', 'mdi-hammer-wrench'],
-        ['Session 1 - Create a test & execute', 'mdi-numeric-1'],
-        ['Session 2 - NLP Creation, debugging, & editing tests', 'mdi-numeric-2'],
-        ['Session 3 - Page Objects & Orchestrations', 'mdi-numeric-3'],
-        ['Session 4 - TDM, Settings, & Integrations', 'mdi-numeric-4'],
-        ['Opening and formatting support tickets', 'mdi-ticket-confirmation'],
-        ['Escalating support tickets', 'mdi-account-supervisor'],
+        ['Getting the most out of self paced onboarding & training', 'mdi-message-text', '/page/7'],
+        ['Intro & Prerequisites for training', 'mdi-hammer-wrench', '/page/7'],
+        ['Session 1 - Create a test & execute', 'mdi-numeric-1', '/page/7'],
+        ['Session 2 - NLP Creation, debugging, & editing tests', 'mdi-numeric-2', '/page/7'],
+        ['Session 3 - Page Objects & Orchestrations', 'mdi-numeric-3', '/page/7'],
+        ['Session 4 - TDM, Settings, & Integrations', 'mdi-numeric-4', '/page/7'],
+        ['Opening and formatting support tickets', 'mdi-ticket-confirmation', '/page/7'],
+        ['Escalating support tickets', 'mdi-account-supervisor', '/page/7'],
       ],
       administration: [
         ['SSO Configurations', 'mdi-account'],
