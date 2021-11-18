@@ -1,7 +1,7 @@
 {
-  "name": "my-training",
+  "name": "frontend",
   "description": "For Learning, Inited structured by ",
-  "author": "Pongsametrey Sok <metreysk@gmail.com>",
+  "author": "Bryce Watson",
   "version": "0.1.0",
   "private": true,
   "scripts": {
