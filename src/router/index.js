@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Hello from '@/components/HelloWorld';
 import ViewHello from '@/components/ViewWorld';
+import VueApollo from 'vue-apollo'
+
 
 Vue.use(Router);
 

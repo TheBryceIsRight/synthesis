@@ -1,20 +1,54 @@
 <template>
-  <v-app>
-    <v-main>
-      <v-app-bar
-      color="#4B466F"
+  <!-- <div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <router-link class="navbar-brand" to="/">Home</router-link>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link class="nav-link" to="/create"
+              >Add New Post</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/user/signup"
+              >Sign up</router-link
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div> -->
+  <div>
+    <v-app-bar
+      color="deep-purple accent-4"
+      dense
       dark
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      
-      <v-toolbar-title>Documentation</v-toolbar-title>
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Page title</v-toolbar-title>
+
       <v-spacer></v-spacer>
+
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
+
       <v-btn icon>
         <v-icon>mdi-magnify</v-icon>
       </v-btn>
+
       <v-menu
         left
         bottom
@@ -31,517 +65,25 @@
 
         <v-list>
           <v-list-item
+            v-for="n in 5"
+            :key="n"
             @click="() => {}"
           >
-            <v-list-item-title>Profile</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="() => {}"
-          >
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item>
-          <v-list-item
-            @click="() => {}"
-          >
-            <v-list-item-title>Logout</v-list-item-title>
+            <v-list-item-title>Option {{ n }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
-      
     </v-app-bar>
-      <v-container style="width:83%">
-      <router-view/>
-      </v-container>
-    </v-main>
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      bottom
-      temporary
-      width=60%
-    >
-      <v-list>
-      <v-list-item>
-        <v-list-item-icon>
-          <v-icon>mdi-home</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-title>Home</v-list-item-title>
-      </v-list-item>
-
-      <v-list-group
-        :value="false"
-        prepend-icon="mdi-book-open-page-variant "
-      >
-        <template v-slot:activator>
-          <v-list-item-title>User Guide</v-list-item-title>
-        </template>
-
-
-
-        <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Onboarding</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in training"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-                <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Administration</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in administration"
-            :key="i"
-            link
-          >
-
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-        
-        <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Executions & Orchestrations</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in admins"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Projects</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in projects"
-            :key="i"
-            link
-          >
-
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Architect Test Creation</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in architect"
-            :key="i"
-            link
-          >
-
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-
-          </v-list-item>
-        </v-list-group>
-         <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>NLP Test Creation</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in nlp"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Test Case Management</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in test_case_management"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Test Data Management - Data Driven Testing</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in test_data_management"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Test Executions & Orchestrations</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in executions_and_orchestrations"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group><v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Test Editing & Debugging</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in editing_and_debugging"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group><v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Functionize Tools</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in fze_tools"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group><v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Reusable workflows: components</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in components"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group><v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Integrations</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in integrations"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group><v-list-group
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Reporting & Performance Metrics</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in reporting_and_performance_metrics"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-
-
-
-
-      </v-list-group>
-
-      <v-list-group
-        :value="false"
-        prepend-icon="mdi-alert-decagram "
-      >
-        <template v-slot:activator>
-          <v-list-item-title>Release Notes</v-list-item-title>
-        </template>
-
-
-
-        <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Functionize Release Notes</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in release"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-
-          </v-list-item>
-        </v-list-group>
-
-                <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Architect Release Notes</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in architect_version"
-            :key="i"
-            link
-          >
-
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-
-          </v-list-item>
-        </v-list-group>
-        
-        <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Feature Highlights</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in feature_highlights"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-
-        
-      </v-list-group>
-      
-      <v-list-group
-        :value="false"
-        prepend-icon="mdi-help-circle-outline "
-      >
-        <template v-slot:activator>
-          <v-list-item-title>Troubleshooting</v-list-item-title>
-        </template>
-
-
-
-        <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Best Practices</v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="([title, icon], i) in best_practices"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-
-          </v-list-item>
-        </v-list-group>
-
-        <v-list-group
-          :value="false"
-          no-action
-          sub-group
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title>Frequently Asked Questions</v-list-item-title>
-            </v-list-item-content>
-          </template>
-          <v-list-item
-            v-for="([title, icon], i) in faq"
-            :key="i"
-            link
-          >
-            <v-list-item-icon>
-              <v-icon v-text="icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list-group>
-      
-
-        
-      </v-list-group>
-    </v-list>
-    </v-navigation-drawer>
-  </v-app>
+  </div>
 </template>
 
 <script>
-
-export default {
-  name: 'App',
-  data: () => ({
-    dialog: false,
-    selected: [],
-    years: [
+import axios from 'axios'
+  export default {
+    name: 'App',
+    data: () => ({
+        selected: [],
+        years: [
           {
             color: 'cyan',
             year: '2018 Q2',
@@ -848,18 +390,21 @@ export default {
         ['There are a lot of screen shots stored by the tests as they run.  Can I turn off the storage of such information?', 'mdi-help-circle-outline'],
         ['How do you ensure that our data is secure?', 'mdi-help-circle-outline'],
         ['How do I create an optional verify action for click or input actions?', 'mdi-help-circle-outline'],
-      ],
-      cruds: [
-        ['Create', 'mdi-plus-outline'],
-        ['Read', 'mdi-file-outline'],
-        ['Update', 'mdi-update'],
-        ['Delete', 'mdi-delete'],
-      ],
-  }),
-   watch: {
+      ]
+    }),
+    async mounted () {
+      try {
+        const response = await axios.get('http://localhost:1337/pages')
+        this.pages = response.data
+        console.log(this.pages);
+      } catch (error) {
+        this.error = error;
+      }
+    },
+    watch: {
       group () {
         this.drawer = false
       },
     },
-};
+  }
 </script>
