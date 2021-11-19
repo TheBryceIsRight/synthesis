@@ -7,16 +7,28 @@
       fixed
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      
-      <v-toolbar-title>Documentation</v-toolbar-title>
-      
-      <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+      <v-toolbar-title>Dcoumentation</v-toolbar-title>      
+
+      <CreatePost/>
+       <v-snackbar
+          v-model="snackbar"
+          :timeout="timeout"
+          color="#4B466F"
+          class="ma-0 pa-0"
+        >
+        <v-btn
+        text
+        large
+        style="textTransform:none;"
+        @click="snackbar = false"
+        class="ma-0"
+        >
+        <v-icon left>
+          mdi-check-circle
+        </v-icon>
+          {{text}}
+        </v-btn>
+        </v-snackbar>
       <v-menu
         left
         bottom
@@ -543,6 +555,7 @@
       </v-list-group>
     </v-list>
     </v-navigation-drawer>
+    
   </v-app>
 </template>
 
@@ -554,6 +567,10 @@
 
 <script>
 // import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
+import gql from "graphql-tag";
+import CreatePost from './components/CreatePost.vue';
+
+
 
 export default {
   
@@ -561,7 +578,24 @@ export default {
   // components: {
   //   NprogressContainer
   // },
+  components: {
+    CreatePost
+  },
   data: () => ({
+    snackbar: false,
+    snackbar2: false,
+    text: 'Post successfully edited',
+    text2: 'Post deleted',
+    timeout: 5000,
+    valid: false,
+    titleRules: [
+      v => !!v || 'Title is required',
+    ],
+    descriptionRules: [
+      v => !!v || 'Description is required',
+    ],
+    page: [],
+    id: this.$route.params.id,
     dialog: false,
     loading: true,
     firstLoad: true,
@@ -583,60 +617,6 @@ export default {
           href: '/',
         }
       ],
-    years: [
-          {
-            color: 'cyan',
-            year: '2018 Q2',
-          },
-          {
-            color: 'green',
-            year: '2018 Q4',
-          },
-          {
-            color: 'pink',
-            year: '2019 Q2',
-          },
-          {
-            color: 'amber',
-            year: '2019 Q4',
-          },
-          {
-            color: 'orange',
-            year: '2020 Q3',
-          },
-        ],
-      items: [
-          {
-            action: '15 min',
-            headline: 'Wednesday at 12:57',
-            subtitle: `Resolved an issue where email notification was not received after certain orchestration executions.`,
-            title: "What's New in Version 5.0.16?",
-          },
-          {
-            action: '2 hr',
-            headline: 'November 03, 2021 07:00',
-            subtitle: `Resolved an issue where certain orchestration APIs were not triggering the start of an orchestration`,
-            title: "What's New in Version 5.0.15?",
-          },
-          {
-            action: '6 hr',
-            headline: 'October 25, 2021 12:23',
-            subtitle: 'Resolved a performance issue on certain popups throughout the application.',
-            title: "What's New in Version 5.0.14?",
-          },
-          {
-            action: '12 hr',
-            headline: 'October 12, 2021 09:22',
-            subtitle: 'Resolved a Slider View display issue occurring in certain tests.',
-            title: "What's New in Version 5.0.13?",
-          },
-          {
-            action: '18hr',
-            headline: 'October 08, 2021 08:28',
-            subtitle: 'Obfuscated passwords used in site authentication test cases in the Slider View.',
-            title: "What's New in Version 5.0.12?",
-          },
-        ],
       documents: [],
       error: null,
       drawer: false,
@@ -902,5 +882,33 @@ export default {
       this.loading = true // you can think of a way to make isLoading false
     }
     },
+  methods: {
+    createPost() {
+      if (this.title && this.description) {
+        this.$apollo
+          .mutate({
+            mutation: gql`
+              mutation createBlog($title: String!, $description: String!) {
+                createPage(input: { data: { title: $title, description: $description } }) {
+                  page {
+                    title
+                    description
+                  }
+                }
+              }
+            `,
+            variables: {
+              title: this.title,
+              description: this.description,
+            },
+          })
+          .then(() => {
+            this.snackbar = true;
+          });
+      } else {
+        alert("all fields are required");
+      }
+    },
+  }
 };
 </script>
