@@ -5,10 +5,21 @@ import vuetify from './plugins/vuetify';
 import store from './store';
 import { sync } from 'vuex-router-sync';
 import axios from 'axios';
-import VueRouter from 'vue-router'
+import VueRouter from 'vue-router';
+import NProgress from 'vue-nprogress';
 
 Vue.use(VueRouter)
 
+const options = {
+  latencyThreshold: 50, // Number of ms before progressbar starts showing, default: 100,
+  router: true, // Show progressbar when navigating routes, default: true
+  http: true // Show progressbar when doing Vue.http, default: true
+};
+
+
+Vue.use(NProgress, options)
+
+const nprogress = new NProgress()
 
 Vue.config.productionTip = false;
 
@@ -60,6 +71,7 @@ new Vue({
   router,
   store,
   apolloProvider,
+  nprogress,
   vuetify,
   render: h => h(App)
 }).$mount('#app')

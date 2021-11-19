@@ -8,37 +8,11 @@
                   :to="{ path: '/page/' + page.id }"
                   style="text-decoration:none; color: #434343;"
                 >
-                  <!-- <div class="container">
-                    <div class="customCard">
-                      <div
-                        class="
-                          card
-                          shadow-lg
-                          p-3
-                          mb-5
-                          bg-white
-                          rounded
-                          mr-5
-                          ml-5
-                        "
-                      >
-                        <div class="card-head" style="padding: 4rem">
-                          <h1 style="font-size: 6rem">
-                            {{ page.title }}
-                            <hr />
-                          </h1>
-                        </div>
-                        <div class="card-body text-center">
-                          <p style="line-height: 26pt">{{ page.description }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
                   <v-card
                     elevation="2"
                     v-ripple
                   >
-                  <v-card-title>{{ page.title }}</v-card-title>
+                  <v-card-title><h1>{{ page.title }}</h1></v-card-title>
                   <v-card-text>
                   <markdown-it-vue class="md-body" :content="page.description"/>
                   </v-card-text>
@@ -49,15 +23,19 @@
   </v-container>
 </template>
 
+
 <script>
 import gql from "graphql-tag";
 import MarkdownItVue from 'markdown-it-vue'
 import 'markdown-it-vue/dist/markdown-it-vue.css'
+
+
 export default {
   name: "Home",
   components: {
     MarkdownItVue
   },
+  
   data() {
     return {
       pages: [],

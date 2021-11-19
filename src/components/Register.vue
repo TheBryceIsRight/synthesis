@@ -91,8 +91,7 @@ export default {
               password: this.password,
             },
           })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             alert("User created Created");
           });
       } else {

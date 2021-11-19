@@ -4,10 +4,12 @@
       <v-app-bar
       color="#4B466F"
       dark
+      fixed
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       
       <v-toolbar-title>Documentation</v-toolbar-title>
+      
       <v-spacer></v-spacer>
       <v-btn icon>
         <v-icon>mdi-heart</v-icon>
@@ -49,6 +51,15 @@
       </v-menu>
       
     </v-app-bar>
+    <br/>
+    <br/>
+    
+    <br/>
+    <v-breadcrumbs :items="breadcrumbs">
+      <template v-slot:divider>
+        <v-icon>mdi-chevron-right</v-icon>
+      </template>
+    </v-breadcrumbs>
       <v-container style="width:83%">
       <router-view/>
       </v-container>
@@ -58,10 +69,10 @@
       absolute
       left
       temporary
-      width=60%
+      width=450px
     >
       <v-list>
-      <v-list-item>
+      <v-list-item to="/">
         <v-list-item-icon>
           <v-icon>mdi-home</v-icon>
         </v-list-item-icon>
@@ -537,12 +548,36 @@
 </template>
 
 <script>
+// import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
 export default {
+  
   name: 'App',
+  // components: {
+  //   NprogressContainer
+  // },
   data: () => ({
     dialog: false,
+    loading: true,
+    firstLoad: true,
     selected: [],
+    breadcrumbs: [
+        {
+          text: 'Home',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+        {
+          text: 'Link',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+        {
+          text: 'Link 2',
+          disabled: true,
+          href: 'breadcrumbs_link_1',
+        }
+      ],
     years: [
           {
             color: 'cyan',
@@ -565,7 +600,7 @@ export default {
             year: '2020 Q3',
           },
         ],
-        items: [
+      items: [
           {
             action: '15 min',
             headline: 'Wednesday at 12:57',
@@ -851,17 +886,16 @@ export default {
         ['How do you ensure that our data is secure?', 'mdi-help-circle-outline'],
         ['How do I create an optional verify action for click or input actions?', 'mdi-help-circle-outline'],
       ],
-      cruds: [
-        ['Create', 'mdi-plus-outline'],
-        ['Read', 'mdi-file-outline'],
-        ['Update', 'mdi-update'],
-        ['Delete', 'mdi-delete'],
-      ],
+
   }),
    watch: {
       group () {
         this.drawer = false
       },
+      '$route' () {
+      // this will be called any time the route changes
+      this.loading = true // you can think of a way to make isLoading false
+    }
     },
 };
 </script>

@@ -14,12 +14,18 @@ export default new Router({
     {
       path: '/',
       name: 'Hello',
-      component: Hello
+      component: Hello,
+      meta: {
+        showProgressBar: true
+      }
     },
     {
       path: '/view',
       name: 'ViewHello',
-      component: ViewHello
+      component: ViewHello,
+      meta: {
+        showProgressBar: true
+      }
     }
   ]
 });

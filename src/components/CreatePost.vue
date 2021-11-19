@@ -58,8 +58,7 @@ export default {
               description: this.description,
             },
           })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
             alert("Post Created");
           });
       } else {
