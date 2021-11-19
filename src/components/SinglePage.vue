@@ -8,21 +8,9 @@
      <h1>{{ page.title }}</h1>  
   </v-row>
   <br/>
-  <v-row
-        :align="start"
-        no-gutters
-        style="height: 20px;"
-      >
-        <v-col style="max-width: 150px;"
-        >
-          <v-btn @click="deletePost()">Delete</v-btn>
-
-        </v-col>
-        <v-col style="max-width: 170px;"
-        >
-          <v-dialog
+   <v-dialog
       v-model="dialog"
-      width="500"
+      width="600"
     >
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -30,8 +18,12 @@
           dark
           v-bind="attrs"
           v-on="on"
+          style="textTransform:none; font-weight: 400;"
         >
-          Edit Dialog
+        <v-icon left>
+            mdi-pencil
+            </v-icon>
+          Edit
         </v-btn>
       </template>
 
@@ -39,65 +31,92 @@
         <v-card-title class="text-h5 grey lighten-2">
          Edit Post
         </v-card-title>
-        <v-container>
-          <v-combobox
-          v-model="select"
-          :items="items"
-          label="Title"
-          outlined
-          dense
-        ></v-combobox>
+          <v-form v-model="valid">
+            <v-container>
+                  <v-text-field
+                    v-model="page.title"
+                    :rules="titleRules"
+                    label="Title"
+                    filled
+                    clearable
+                    required
+                  ></v-text-field>
+                  <v-textarea
+                    v-model="page.description"
+                    :rules="descriptionRules"
+                    label="Description"
+                    filled
+                    auto-grow
+                    clearable
+                    required
+                  ></v-textarea>
+                  <v-card-actions>
+                  <v-btn
+                    @click="editPost()"
+                    style="textTransform:none; font-weight: 400"
+                    text
+                    color="#0072B1"
+                  >
+                  <v-icon left>
+                  mdi-content-save
+                  </v-icon>
+                    Save
+                  </v-btn>
 
-        <v-combobox
-          label="Description"
-          outlined
-          dense
-        ></v-combobox>
-
-        <v-btn
-          color="#0072B1"
-          dark
-          @click="editPost()"
-        >
-          Save
-        </v-btn>
-        <br/>
-        <br/>
-        <v-btn
-          color="red lighten-2"
-          dark
-          @click="deletePost()"
-        >
-          Delete
-        </v-btn>
-
-        </v-container>
-
-        
-        <v-card-text v-model="page.title">
-          Title
-        </v-card-text>
-
-        <v-card-text v-model="page.title">
-          {{page.title}}
-        </v-card-text>
-
-        <v-divider></v-divider>
-        <v-container>
-          <h3>Debug area</h3>
-          <label>Title</label>
-          <br/>
-          <input type="text" v-model="page.title" class="form-control" />
-          <br/>
-          <br/>
-          <label>Description</label>
-          <br/>
-          <input type="text" v-model="page.description" class="form-control" />
-        </v-container>
+                  <v-btn
+                    @click="deletePost()"
+                    style="textTransform:none; font-weight: 400;"
+                    text
+                    color="#94072A"
+                  >
+                  <v-icon left>
+                  mdi-delete
+                  </v-icon>
+                    Delete
+                  </v-btn>
+                  </v-card-actions>
+            </v-container>
+          </v-form>
       </v-card>
     </v-dialog>
-        </v-col>
-      </v-row>
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      color="#4B466F"
+      class="ma-0 pa-0"
+    >
+    <v-btn
+    text
+    large
+    style="textTransform:none;"
+    @click="snackbar = false"
+    class="ma-0"
+    >
+    <v-icon left>
+      mdi-check-circle
+    </v-icon>
+      {{text}}
+    </v-btn>
+    </v-snackbar>
+    
+    <v-snackbar
+      v-model="snackbar2"
+      :timeout="timeout"
+      color="#4B466F"
+    >
+    <v-btn
+    text
+    large
+    style="textTransform:none;"
+    @click="snackbar = false"
+    class="ma-0"
+    >
+    <v-icon left>
+      mdi-delete
+    </v-icon>
+      {{text2}}
+    </v-btn>
+    </v-snackbar>
   <br/>
   <br/>
       <markdown-it-vue class="md-body" :content="page.description"/>
@@ -116,17 +135,23 @@ export default {
   },
   data() {
     return {
+      snackbar: false,
+      snackbar2: false,
+      text: 'Post successfully edited',
+      text2: 'Post deleted',
+      timeout: 5000,
+      valid: false,
+      titleRules: [
+        v => !!v || 'Title is required',
+      ],
+      descriptionRules: [
+        v => !!v || 'Description is required',
+      ],
       page: [],
       id: this.$route.params.id,
       content: '# your markdown content',
       dialog: false,
       strapi_url: 'https://localhost:1337',
-      items: [
-          'Programming',
-          'Design',
-          'Vue',
-          'Vuetify',
-      ],
     };
   },
   // computed: {
@@ -140,7 +165,7 @@ export default {
       this.$apollo
         .mutate({
           mutation: gql`
-            mutation updatePage($id: ID!, $Title: String!, $Body: String!) {
+            mutation updatePage($id: ID!, $title: String!, $description: String!) {
               updatePage(
                 input: {
                   where: { id: $id }
@@ -162,7 +187,7 @@ export default {
         })
         .then(() => {
           // console.log(res);
-          alert("Edited");
+          this.snackbar = true;
         });
     },
 
@@ -186,7 +211,7 @@ export default {
             },
           })
           .then(() => {
-            // console.log(res);
+            this.snackbar2 = true;
           });
       } else {
         return false;
@@ -214,12 +239,3 @@ export default {
   },
 };
 </script>
-
-
-<style>
-.customPadding {
-  margin-top: 12rem !important;
-  margin-bottom: 12rem !important;
-  /* padding: 4rem; */
-}
-</style>

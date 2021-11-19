@@ -52,7 +52,6 @@
       
     </v-app-bar>
     <br/>
-    <br/>
     
     <br/>
     <v-breadcrumbs :items="breadcrumbs">
@@ -69,7 +68,7 @@
       absolute
       left
       temporary
-      width=450px
+      width=60%
     >
       <v-list>
       <v-list-item to="/">
@@ -547,6 +546,12 @@
   </v-app>
 </template>
 
+<style>
+.btn {
+  text-transform: unset !important;
+}
+</style>
+
 <script>
 // import NprogressContainer from 'vue-nprogress/src/NprogressContainer'
 
@@ -565,17 +570,17 @@ export default {
         {
           text: 'Home',
           disabled: false,
-          href: 'breadcrumbs_dashboard',
+          href: '/',
         },
         {
           text: 'Link',
           disabled: false,
-          href: 'breadcrumbs_link_1',
+          href: '/page/7',
         },
         {
           text: 'Link 2',
           disabled: true,
-          href: 'breadcrumbs_link_1',
+          href: '/',
         }
       ],
     years: [
